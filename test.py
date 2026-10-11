@@ -4,6 +4,8 @@ import torch
 from PIL import Image
 from torchvision import transforms
 from torchvision.models import efficientnet_b0
+from dashboard_push import send_frame
+
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -115,7 +117,7 @@ while True:
     frameYOLO = yolo(frame)
 
     frame = cnn(frame, frameYOLO)
-
+    send_frame("EMBER", frame) 
     cv2.imshow("Detection", frame)
 
     if cv2.waitKey(1) & 0xFF == ord("q"):
